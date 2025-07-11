@@ -1,11 +1,16 @@
+"use client"
+
+import { useState } from "react"
 import ProductCard from "@/components/ProductCard"
-import OrderForm from "@/components/OrderForm"
+import OrderModal from "@/components/OrderModal"
 import { products } from "@/data/products"
 
 export default function Page() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Menú</h1>
+    <main className="p-4  min-h-screen">
+      <h1 className="text-2xl font-bold mb-4 text-center">Menú</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((prod) => (
@@ -13,7 +18,16 @@ export default function Page() {
         ))}
       </div>
 
-      <OrderForm />
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition"
+        >
+          Finalizar pedido
+        </button>
+      </div>
+
+      <OrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </main>
   )
 }

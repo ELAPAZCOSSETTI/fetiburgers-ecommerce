@@ -36,7 +36,7 @@ export const buildWhatsAppLink = ({nombre , metodoPago, zona}: DatosPedido) => {
 
     message += "\nEn breve nos estamos comunicando con vos para confirmar el pedido y tiempo estimado de preparacion. ¡Muchas gracias por elegirnos!"
 
- const phone = "5492612478856" // ← este número es el que recibe el pedido
+ const phone = "5492616560683" 
 
 return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
 
