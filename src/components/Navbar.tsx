@@ -9,17 +9,17 @@ export default function Navbar() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
-        <header className="bg-zinc-900 shadow px-4 py-2 flex justify-between items-center sticky top-0 z-30">
+        <header className="bg-black shadow px-4 py-2 flex justify-between items-center sticky top-0 z-30">
             {/* Logo a la izquierda */}
-            <div className="flex items-center gap-4 ml-20">
-                <Image src="/logo.png" alt="Logo" width={100} height={100} className="rounded-l-full rounded-r-full" />
+            <div className="flex items-center gap-4 ">
+                <Image src="/logo.png" alt="Logo" width={100} height={100} className="rounded-l-full rounded-r-full ml-40" />
                 <span className="font-bold text-3xl">Fetiburgers</span>
             </div>
 
             {/* Botón carrito */}
             <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative bg-white text-black px-6 py-4 rounded hover:bg-orange-600 transition mr-20"
+                className="relative bg-white text-black px-6 py-4 rounded hover:bg-orange-500 transition mr-40"
             >
                 🛒
             </button>

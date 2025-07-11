@@ -21,7 +21,7 @@ export default function OrderForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 space-y-4 max-w-md mx-auto bg-white shadow-lg rounded-xl mt-8">
+    <form onSubmit={handleSubmit} className="p-4 space-y-4 max-w-md mx-auto bg-orange-900 shadow-lg rounded-xl mt-8">
       <h2 className="text-xl font-bold text-center">Completar pedido</h2>
 
       <div>
@@ -30,7 +30,7 @@ export default function OrderForm() {
           type="text"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 text-xl"
           placeholder="Ej: Franco"
           required
         />
@@ -42,7 +42,7 @@ export default function OrderForm() {
           type="text"
           value={zona}
           onChange={(e) => setZona(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 text-xl"
           placeholder="Ej: Luján, Godoy Cruz, etc."
           required
         />
@@ -53,7 +53,7 @@ export default function OrderForm() {
         <select
           value={metodoPago}
           onChange={(e) => setMetodoPago(e.target.value)}
-          className="w-full border rounded px-3 py-2"
+          className="w-full border rounded px-3 py-2 text-xl"
         >
           <option value="Efectivo">Efectivo</option>
           <option value="Transferencia">Transferencia (MP)</option>
