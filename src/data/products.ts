@@ -4,7 +4,7 @@ export const products = [
     name: "Promo 1 - Fetiburger Clásica",
     description: "Carne, lechuga, tomate, cheddar y pan artesanal",
     price: 2500,
-    image: "/fetiche.png",
+    image: "/bacon.png",
   },
   {
     id: 2,

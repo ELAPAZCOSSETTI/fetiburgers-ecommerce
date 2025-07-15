@@ -6,11 +6,13 @@ import OrderModal from "@/components/OrderModal"
 import { products } from "@/data/products"
 
 export default function Page() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+const [isModalOpen, setIsModalOpen] = useState(false)
+const [isCartOpen, setIsCartOpen] = useState(false)
+
 
   return (
-    <main className="p-4  min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 text-center">Menú</h1>
+    <main className="p-4  min-h-screen bg-stone-950">
+      <h1 className="text-2xl font-bold mb-4 text-center text-white">Menú</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((prod) => (

@@ -42,27 +42,27 @@ export default function ProductCard({ product }: { product: Product }) {
     return (
         <div
             className={clsx(
-                "bg-orange-500 rounded-xl shadow-md overflow-hidden flex flex-col transition border",
-                justAdded ? "border-green-500 ring-2 ring-green-300" : "border-transparent"
+                "bg-amber-700 rounded-xl shadow-md overflow-hidden flex flex-col transition border",
+                justAdded ? "border-green-500 ring-2 ring-green-400" : "border-transparent"
             )}
         >
             <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-100 "
+                className=" h-90 w-full "
             />
 
-            <div className="p-4 flex-1 flex flex-col justify-between">
+            <div className="p-2 flex-1 flex flex-col justify-between">
                 <div>
-                    <h3 className="text-2xl font-semibold">{product.name}</h3>
-                    <p className="text-white text-2xl">{product.description}</p>
+                    <h3 className="text-xl font-semibold">{product.name}</h3>
+                    <p className="text-white text-sm">{product.description}</p>
                 </div>
 
                 <div className="mt-4 flex items-center justify-between">
                     <span className="text-black font-extrabold text-xl">${product.price}</span>
                     <button
                         onClick={handleAdd}
-                        className="bg-green-600 text-white px-8 py-2 rounded-2xl hover:bg-green-700 transition text-sm"
+                        className="bg-green-600 text-white px-6 py-2 rounded-2xl hover:bg-green-700 transition text-sm"
                     >
                         Agregar
                     </button>
@@ -88,7 +88,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
                         <button
                             onClick={handleRemove}
-                            className="text-red-600 hover:underline"
+                            className="text-black hover:underline"
                         >
                             Eliminar
                         </button>
