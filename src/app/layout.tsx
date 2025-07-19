@@ -4,10 +4,10 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Fetiburgers",
-  description: "Delicious burgers delivered to your door",
+  description: "Deliciosas hamburguesas entregadas a tu puerta.",
   icons: {
-    icon: "/logo.ico",
-},
+    icon: "/icono.png",
+  },
 }
 
 export default function RootLayout({
@@ -20,7 +20,9 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
+        
         <Footer />
+
       </body>
     </html>
   );

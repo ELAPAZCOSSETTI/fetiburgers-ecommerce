@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
         {/* Info principal */}
         <div>
-          <p className="text-xl">Fetiburguers © 2025 – Todos los derechos reservados</p>
+          <p className="text-xl">Fetiburgers © 2025 – Todos los derechos reservados</p>
           <p className="text-xl">Delivery zona Lujan, Maipu y Godoy Cruz</p>
         </div>
 

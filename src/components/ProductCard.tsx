@@ -42,14 +42,14 @@ export default function ProductCard({ product }: { product: Product }) {
     return (
         <div
             className={clsx(
-                "bg-amber-700 rounded-xl shadow-md overflow-hidden flex flex-col transition border",
+                "bg-amber-700 rounded-3xl shadow-md overflow-hidden flex flex-col transition border",
                 justAdded ? "border-green-500 ring-2 ring-green-400" : "border-transparent"
             )}
         >
             <img
                 src={product.image}
                 alt={product.name}
-                className=" h-90 w-full "
+                className=" h-90 w-90 rounded-2xl object-cover mb-4"
             />
 
             <div className="p-2 flex-1 flex flex-col justify-between">
