@@ -38,14 +38,14 @@ export default function OrderModal({ isOpen, onClose }: Props) {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-xl bg-orange-500 p-6 shadow-xl transition-all">
+                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-xl bg-amber-700 p-6 shadow-xl transition-all">
                                 <Dialog.Title className="text-lg font-bold mb-4 text-center">
                                     Finalizar pedido
                                 </Dialog.Title>
                                 <OrderForm />
                                 <button
                                     onClick={onClose}
-                                    className="mt-4 w-full py-2 rounded text-sm bg-orange-300 hover:bg-zinc-300 transition"
+                                    className="mt-4 w-full py-2 rounded text-sm bg-orange-400 hover:bg-zinc-300 transition"
                                 >
                                     Cerrar
                                 </button>

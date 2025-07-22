@@ -62,7 +62,7 @@ export default function ProductCard({ product }: { product: Product }) {
                     <span className="text-black font-extrabold text-xl">${product.price}</span>
                     <button
                         onClick={handleAdd}
-                        className="bg-green-600 text-white px-6 py-2 rounded-2xl hover:bg-green-700 transition text-sm"
+                        className="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition text-sm"
                     >
                         Agregar
                     </button>

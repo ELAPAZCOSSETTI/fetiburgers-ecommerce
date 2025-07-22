@@ -43,38 +43,38 @@ export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="w-full max-w-sm bg-white p-4 shadow-xl">
+            <Dialog.Panel className="w-full max-w-sm bg-gradient-to-l from-zinc-400 to-black p-4 shadow-xl">
               <div className="flex justify-between items-center mb-4">
-                <Dialog.Title className="text-xl font-bold">Tu pedido</Dialog.Title>
-                <button onClick={onClose} className="text-gray-500 hover:text-red-500 text-xl">
+                <Dialog.Title className="text-xl font-bold text-gray-200">Tu pedido</Dialog.Title>
+                <button onClick={onClose} className="text-gray-200 hover:text-red-500 text-xl">
                   ×
                 </button>
               </div>
 
               {items.length === 0 ? (
-                <p className="text-center text-gray-500">El carrito está vacío</p>
+                <p className="text-center font-bold text-gray-200">El carrito está vacío</p>
               ) : (
                 <div className="space-y-4">
                   {items.map((item) => (
                     <div key={item.id} className="flex justify-between items-center border-b pb-2">
                       <div className="flex flex-col">
-                        <span className="font-medium">{item.name}</span>
-                        <span className="text-sm text-gray-500">${item.price} x {item.quantity}</span>
+                        <span className="text-sm font-medium text-gray-200">{item.name}</span>
+                        <span className="text-sm text-gray-200">${item.price} x {item.quantity}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => decreaseQuantity(item.id)}
-                          className="px-2 py-1 rounded bg-zinc-200"
+                          className="px-2 py-1 rounded bg-zinc-200 text-black"
                         >-</button>
                         <span>{item.quantity}</span>
                         <button
                           onClick={() => addToCart(item)}
-                          className="px-2 py-1 rounded bg-zinc-200"
+                          className="px-2 py-1 rounded bg-zinc-200 text-black"
                         >+</button>
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="text-red-600 hover:underline text-xs"
+                          className="text-red-600 hover:underline text-xs font-bold"
                         >
                           Eliminar
                         </button>
@@ -85,7 +85,7 @@ export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
               )}
 
               <div className="mt-6">
-                <p className="text-right font-semibold text-lg">
+                <p className="text-right font-bold text-xl">
                   Total: ${total}
                 </p>
 
@@ -95,7 +95,7 @@ export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
                       onClose()
                       onFinalizar()
                     }}
-                    className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+                    className="mt-4 w-full bg-green-600 text-white py-2 rounded-xl hover:bg-green-700 transition"
                   >
                     Finalizar pedido
                   </button>

@@ -7,8 +7,8 @@ export default function Footer() {
   const whatsappLink = `https://wa.me/${phone}`
 
   return (
-    <footer className="bg-black text-white py-6 ">
-      <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+    <footer className="bg-black text-white py-6">
+      <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left ">
         {/* Info principal */}
         <div>
           <p className="text-xl">Fetiburgers © 2025 – Todos los derechos reservados</p>
