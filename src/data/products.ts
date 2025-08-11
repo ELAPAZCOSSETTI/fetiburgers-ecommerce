@@ -12,7 +12,7 @@ export const products = [
     name: "Promo 2 - Doble Cheeseburger",
     description: "Doble carne, doble cheddar, panceta crocante",
     price: 3200,
-    image: "/ejemplo1.jpg",
+    image: "/Pepino.jpg",
     type: "menu",
   },
   {
