@@ -3,6 +3,7 @@
 import { useCart } from "@/store/cart"
 import { useEffect, useState } from "react"
 import clsx from "clsx"
+import { v4 as uuidv4 } from "uuid"
 
 type Product = {
     id: number
@@ -12,24 +13,51 @@ type Product = {
     image: string
 }
 
+const extrasList = [
+    { id: "bacon", name: "Extra bacon", price: 500 },
+    { id: "carne", name: "Extra carne", price: 800 },
+    { id: "cebolla", name: "Cebolla caramelizada", price: 300 },
+]
+
 export default function ProductCard({ product }: { product: Product }) {
-    const { addToCart, removeFromCart, decreaseQuantity, items } = useCart()
-    const cartItem = items.find((item) => item.id === product.id)
-    const quantity = cartItem?.quantity || 0
+    const { addInstanceToCart, removeInstanceFromCart, updateInstanceExtras, getInstancesByProduct } = useCart()
+    const burgerInstances = getInstancesByProduct(product.id) // todas las hamburguesas de este producto
 
     const [justAdded, setJustAdded] = useState(false)
 
     const handleAdd = () => {
-        addToCart(product)
+        const newInstance = {
+            cartId: uuidv4(),
+            ...product,
+            extras: {}, // extras vacíos al principio
+            quantity: 1
+        }
+        addInstanceToCart(newInstance)
         setJustAdded(true)
     }
 
-    const handleRemove = () => {
-        removeFromCart(product.id)
+    const handleRemoveInstance = (cartId: string) => {
+        removeInstanceFromCart(cartId)
     }
 
-    const handleDecrease = () => {
-        decreaseQuantity(product.id)
+    const increaseExtra = (cartId: string, extraId: string) => {
+        const instance = burgerInstances.find((b) => b.cartId === cartId)
+        if (!instance) return
+        const current = instance.extras[extraId] || 0
+        updateInstanceExtras(cartId, { ...instance.extras, [extraId]: current + 1 })
+    }
+
+    const decreaseExtra = (cartId: string, extraId: string) => {
+        const instance = burgerInstances.find((b) => b.cartId === cartId)
+        if (!instance) return
+        const current = instance.extras[extraId] || 0
+        const updated = { ...instance.extras }
+        if (current > 1) {
+            updated[extraId] = current - 1
+        } else {
+            delete updated[extraId]
+        }
+        updateInstanceExtras(cartId, updated)
     }
 
     useEffect(() => {
@@ -49,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <img
                 src={product.image}
                 alt={product.name}
-                className=" h-90 w-90 rounded-2xl  mb-4"
+                className="h-90 w-90 rounded-2xl"
             />
 
             <div className="p-2 flex-1 flex flex-col justify-between">
@@ -68,30 +96,46 @@ export default function ProductCard({ product }: { product: Product }) {
                     </button>
                 </div>
 
-                {quantity > 0 && (
-                    <div className="mt-4 flex items-center justify-between text-sm text-gray-700">
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={handleDecrease}
-                                className="px-2 py-1 rounded bg-zinc-200 hover:bg-zinc-300"
-                            >
-                                -
-                            </button>
-                            <span className="font-medium">{quantity}</span>
-                            <button
-                                onClick={handleAdd}
-                                className="px-2 py-1 rounded bg-zinc-200 hover:bg-zinc-300"
-                            >
-                                +
-                            </button>
-                        </div>
-
-                        <button
-                            onClick={handleRemove}
-                            className="text-black hover:underline"
-                        >
-                            Eliminar
-                        </button>
+                {burgerInstances.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                        {burgerInstances.map((burger, index) => (
+                            <div key={burger.cartId} className="rounded-lg">
+                                <div className="flex justify-between items-center mb-2">
+                                    <h4 className="font-bold text-black">
+                                        Hamburguesa {index + 1}
+                                    </h4>
+                                    <button
+                                        onClick={() => handleRemoveInstance(burger.cartId)}
+                                        className="text-red-500 text-sm hover:underline"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                                {extrasList.map((extra) => (
+                                    <div
+                                        key={extra.id}
+                                        className="flex items-center justify-between text-black py-1"
+                                    >
+                                        <span>{extra.name}</span>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={() => decreaseExtra(burger.cartId, extra.id)}
+                                                className="px-2 py-1 rounded bg-zinc-200 hover:bg-zinc-300"
+                                            >
+                                                -
+                                            </button>
+                                            <span>{burger.extras[extra.id] || 0}</span>
+                                            <button
+                                                onClick={() => increaseExtra(burger.cartId, extra.id)}
+                                                className="px-2 py-1 rounded bg-zinc-200 hover:bg-zinc-300"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>

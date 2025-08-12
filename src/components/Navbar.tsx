@@ -17,7 +17,6 @@ export default function Navbar() {
                 <Image src="/logo.png" alt="Logo" width={100} height={100} className="rounded-full" />
                 <span className="font-bold text-2xl text-white">Fetiburgers</span>
             </div>
-
             <button
                 onClick={() => setIsCartOpen(true)}
                 className=" bg-white text-black px-6 py-4 rounded hover:bg-green-400 transition "

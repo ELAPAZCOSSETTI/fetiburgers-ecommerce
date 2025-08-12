@@ -1,43 +1,67 @@
 import { useCart } from "@/store/cart";
 
+const extrasList = [
+  { id: "bacon", name: "Extra bacon", price: 500 },
+  { id: "carne", name: "Extra carne", price: 800 },
+  { id: "cebolla", name: "Cebolla caramelizada", price: 300 },
+];
+
 type DatosPedido = {
   nombre: string;
   metodoPago: string;
-  zona: string
+  zona: string;
 }
 
-export const buildWhatsAppLink = ({nombre , metodoPago, zona}: DatosPedido) => {
-    const items = useCart.getState().items
+export const buildWhatsAppLink = ({ nombre, metodoPago, zona }: DatosPedido) => {
+  const items = useCart.getState().items;
 
-    if (items.length === 0) return '#'
+  if (items.length === 0) return '#';
 
-    let message = "Gracias por su compra 🙂\n"
-    message += "Fetiburgers está preparando su pedido 🍔\n\n"
+  let message = "Gracias por su compra \n";
+  message += "Fetiburgers está preparando su pedido \n\n";
 
-  message += `*Nombre:* _${nombre}_\n`
-  message += `*Método de pago:* _${metodoPago}_\n`
-  message += `*Zona de envío:* _${zona}_\n\n`
+  message += `*Nombre:* ${nombre}\n`;
+  message += `*Método de pago:* ${metodoPago}\n`;
+  message += `*Zona de envío:* ${zona}\n\n`;
 
-  message += "*pedido:*\n"
+  message += "*Pedido:*\n";
 
-  let subtotal = 0
-    items.forEach((item) => {
-        const itemTotal = item.price * item.quantity
-        subtotal += itemTotal
-         message += `*${item.quantity}* x *${item.name}* \nSubtotal = $${itemTotal.toLocaleString()}\n`
-    })
+  let subtotal = 0;
+  items.forEach((item, index) => {
+    const extrasTotal = Object.entries(item.extras || {}).reduce((acc, [extraId, qty]) => {
+      const extraData = extrasList.find(e => e.id === extraId);
+      return acc + (extraData ? extraData.price * qty : 0);
+    }, 0);
 
-    message += `\n*Total pedido: $${subtotal.toLocaleString()}*\n\n`
+    const itemTotal = (item.price + extrasTotal) * item.quantity;
+    subtotal += itemTotal;
 
-    if (metodoPago.toLowerCase().includes('transfer')) {
-        message += "Pago por MP: Transferencia al alias: sabrinahetcer20.uala (Enviar comprobante) 📎\n"
+    message += `Hamburguesa ${index + 1}:\n`;
+    message += `  ${item.quantity} x ${item.name} = $${(item.price * item.quantity).toLocaleString()}\n`;
 
+    if (Object.keys(item.extras || {}).length > 0) {
+      message += `  Extras:\n`;
+      Object.entries(item.extras).forEach(([extraId, qty]) => {
+        const extraData = extrasList.find(e => e.id === extraId);
+        if (extraData && qty > 0) {
+          const extraPriceTotal = extraData.price * qty;
+          message += `    - ${extraData.name} x${qty} = $${extraPriceTotal.toLocaleString()}\n`;
+        }
+      });
     }
 
-    message += "\nEn breve nos estamos comunicando con vos para confirmar el pedido y tiempo estimado de preparacion. ¡Muchas gracias por elegirnos!"
+    message += `  Subtotal hamburguesa: $${itemTotal.toLocaleString()}\n\n`;
+  });
 
- const phone = "5492616560683" 
+  message += `*Total pedido: $${subtotal.toLocaleString()}*\n\n`;
 
-return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+  if (metodoPago.toLowerCase().includes('transfer')) {
+    message += "Pago por MP: Transferencia al alias: sabrinahetcer20.uala (Enviar comprobante)\n";
+  }
 
+  message += "\nEn breve nos estamos comunicando con vos para confirmar el pedido y tiempo estimado de preparación. ¡Muchas gracias por elegirnos!";
+
+  const phone = "5492616560683";
+
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }

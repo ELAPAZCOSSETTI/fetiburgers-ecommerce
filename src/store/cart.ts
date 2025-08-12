@@ -1,68 +1,48 @@
 import { create } from "zustand"
 
-type Product = {
-  id: number
-  name: string
-  description: string
-  price: number
-  image: string
+type CartItem = {
+    cartId: string // id único de esta instancia
+    id: number // id del producto base
+    name: string
+    description: string
+    price: number
+    image: string
+    quantity: number
+    extras: { [key: string]: number }
 }
-
-type CartItem = Product & { quantity: number }
 
 type CartState = {
-  items: CartItem[]
-  addToCart: (product: Product) => void
-  removeFromCart: (productId: number) => void
-  decreaseQuantity: (productId: number) => void
-  clearCart: () => void
+    items: CartItem[]
+    addInstanceToCart: (item: CartItem) => void
+    removeInstanceFromCart: (cartId: string) => void
+    updateInstanceExtras: (cartId: string, extras: { [key: string]: number }) => void
+    getInstancesByProduct: (productId: number) => CartItem[]
 }
 
-export const useCart = create<CartState>((set) => ({
-  items: [],
+export const useCart = create<CartState>((set, get) => ({
+    items: [],
 
-  addToCart: (product) =>
-    set((state) => {
-      const existing = state.items.find((item) => item.id === product.id)
-      if (existing) {
-        return {
-          items: state.items.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          ),
-        }
-      }
-      return {
-        items: [...state.items, { ...product, quantity: 1 }],
-      }
-    }),
+    addInstanceToCart: (item) => {
+        set((state) => ({
+            items: [...state.items, item]
+        }))
+    },
 
-  decreaseQuantity: (productId) =>
-    set((state) => {
-      const existing = state.items.find((item) => item.id === productId)
-      if (!existing) return state
+    removeInstanceFromCart: (cartId) => {
+        set((state) => ({
+            items: state.items.filter((i) => i.cartId !== cartId)
+        }))
+    },
 
-      if (existing.quantity === 1) {
-        // Si llega a 0, lo eliminamos
-        return {
-          items: state.items.filter((item) => item.id !== productId),
-        }
-      }
+    updateInstanceExtras: (cartId, extras) => {
+        set((state) => ({
+            items: state.items.map((i) =>
+                i.cartId === cartId ? { ...i, extras } : i
+            )
+        }))
+    },
 
-      return {
-        items: state.items.map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        ),
-      }
-    }),
-
-  removeFromCart: (productId) =>
-    set((state) => ({
-      items: state.items.filter((item) => item.id !== productId),
-    })),
-
-  clearCart: () => set({ items: [] }),
+    getInstancesByProduct: (productId) => {
+        return get().items.filter((i) => i.id === productId)
+    }
 }))

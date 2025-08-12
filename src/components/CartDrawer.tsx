@@ -11,12 +11,16 @@ type Props = {
 }
 
 export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
-  const { items, addToCart, decreaseQuantity, removeFromCart } = useCart()
+  const { items } = useCart()
 
-  const total = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  )
+  // Calcular total con extras incluidos
+  const total = items.reduce((sum, item) => {
+    const extrasTotal = Object.entries(item.extras || {}).reduce((acc, [extraId, qty]) => {
+      const extraData = extrasList.find(e => e.id === extraId)
+      return acc + (extraData ? extraData.price * qty : 0)
+    }, 0)
+    return sum + (item.price + extrasTotal) * item.quantity
+  }, 0)
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -56,29 +60,30 @@ export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
               ) : (
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center border-b pb-2">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-200">{item.name}</span>
-                        <span className="text-sm text-gray-200">${item.price} x {item.quantity}</span>
+                    <div key={item.cartId} className="border-b pb-2">
+                      <div className="flex justify-between items-center">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium text-gray-200">{item.name}</span>
+                          <span className="text-sm text-gray-200">
+                            ${item.price} x {item.quantity}
+                          </span>
+                        </div>
+
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => decreaseQuantity(item.id)}
-                          className="px-2 py-1 rounded bg-zinc-200 text-black"
-                        >-</button>
-                        <span>{item.quantity}</span>
-                        <button
-                          onClick={() => addToCart(item)}
-                          className="px-2 py-1 rounded bg-zinc-200 text-black"
-                        >+</button>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-red-600 hover:underline text-xs font-bold"
-                        >
-                          Eliminar
-                        </button>
-                      </div>
+                      {Object.entries(item.extras || {}).length > 0 && (
+                        <div className="mt-2 ml-4 space-y-1">
+                          {Object.entries(item.extras).map(([extraId, qty]) => {
+                            const extraData = extrasList.find(e => e.id === extraId)
+                            return extraData ? (
+                              <div key={extraId} className="flex justify-between text-xs text-gray-300">
+                                <span>+ {extraData.name}</span>
+                                <span>${extraData.price} x {qty}</span>
+                              </div>
+                            ) : null
+                          })}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -108,3 +113,10 @@ export default function CartDrawer({ isOpen, onClose, onFinalizar }: Props) {
     </Transition>
   )
 }
+
+// 👇 Esto tiene que estar igual que en ProductCard para los precios
+const extrasList = [
+  { id: "bacon", name: "Extra bacon", price: 500 },
+  { id: "carne", name: "Extra carne", price: 800 },
+  { id: "cebolla", name: "Cebolla caramelizada", price: 300 },
+]

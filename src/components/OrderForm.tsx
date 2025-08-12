@@ -30,7 +30,7 @@ export default function OrderForm() {
           type="text"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          className="w-full border rounded px-3 py-2 text-xl"
+          className="w-full border rounded px-3 py-2 text-xl bg-amber-700"
           placeholder="Nombre"
           required
         />
@@ -38,14 +38,16 @@ export default function OrderForm() {
 
       <div>
         <label className="block font-medium mb-1">Zona de envío:</label>
-        <input
-          type="text"
+        <select
           value={zona}
-          onChange={(e) => setZona(e.target.value)}
-          className="w-full border rounded px-3 py-2 text-xl"
-          placeholder="Ej: Luján, Godoy Cruz, etc."
-          required
-        />
+        onChange={(e) => setZona(e.target.value)}
+          className="w-full border rounded px-3 py-2 text-xl bg-amber-700"
+        >
+          <option value="Lujan de cuyo">Lujan de cuyo</option>
+          <option value="Maipu">Maipu</option>
+          <option value="Godoy Cruz">Godoy Cruz</option>
+          <option value="Chacras">Chacras</option>
+        </select>
       </div>
 
       <div>
@@ -53,7 +55,7 @@ export default function OrderForm() {
         <select
           value={metodoPago}
           onChange={(e) => setMetodoPago(e.target.value)}
-          className="w-full border rounded px-3 py-2 text-xl"
+          className="w-full border rounded px-3 py-2 text-xl bg-amber-700" 
         >
           <option value="Efectivo">Efectivo</option>
           <option value="Transferencia">Transferencia (MP)</option>

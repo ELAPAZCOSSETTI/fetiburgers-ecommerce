@@ -20,7 +20,7 @@ export const products = [
     name: "Promo 3 - Veggie Burger",
     description: "Hamburguesa vegetariana con hummus y vegetales frescos",
     price: 2800,
-    image: "/ejemplo2.jpg ",
+    image: "/Cheese.jpg ",
     type: "menu",
   },
     {
